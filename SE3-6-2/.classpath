@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 <<<<<<< HEAD
+<<<<<<< HEAD
 	<classpathentry kind="src" path=""/>
 	<classpathentry kind="lib" path="C:/Users/Chetan/Desktop/xxx/Invoice Project/com.mysql.jdbc_5.1.5.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Chetan/Desktop/xxx/Invoice Project/opencsv-2.2.jar"/>
@@ -13,5 +14,12 @@
 	<classpathentry kind="lib" path="C:/Users/Naren/Desktop/project2/Invoice Project/opencsv-2.2.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Naren/Desktop/sprint 3/itextpdf-5.1.0.jar"/>
 >>>>>>> refs/remotes/origin/master
+=======
+	<classpathentry kind="src" path=""/>
+	<classpathentry kind="lib" path="C:/Users/Chetan/Desktop/xxx/Invoice Project/com.mysql.jdbc_5.1.5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Chetan/Desktop/xxx/Invoice Project/opencsv-2.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Chetan/Desktop/itextpdf-5.1.0-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Chetan/Desktop/itextpdf-5.1.0.jar"/>
+>>>>>>> refs/heads/dev
 	<classpathentry kind="output" path="bin"/>
 </classpath>
