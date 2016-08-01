@@ -26,13 +26,13 @@ public class HeaderScreen {
 	public void getHeaderMenuScreen(final Tool tool){
 		if(tool!=null && tool.getUserType()!=null){
 			tool.getPanel().removeAll();
-			final JLabel label=new JLabel("Welcome "+tool.getUserType());
+			final JLabel label=new JLabel("Welcomei "+tool.getUserType());
 			label.setFont(new Font("Courier New", Font.ITALIC, 24));
 			label.setForeground(Color.WHITE);
 			label.setBounds(150,50,400,25);
 			tool.getPanel().add(label);
 			
-			JButton logout = new JButton("Logout");
+			JButton logout = new JButton("Log-out");
 			logout.setBackground(Color.GREEN);		
 			logout.setFont(new Font("Courier New", Font.PLAIN, 18));
 			logout.addActionListener(new ActionListener(){
