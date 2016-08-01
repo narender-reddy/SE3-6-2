@@ -47,7 +47,7 @@ public class HomeScreen{
 		label.setBounds(175,75,450,30);
 		panel.add(label);
 		
-		JButton login = new JButton("Click to Login");
+		JButton login = new JButton("Click 2 Login");
 		login.setBackground(Color.GREEN);		
 		login.setFont(new Font("Courier New", Font.PLAIN, 18));
 		login.addActionListener(new ActionListener() {
