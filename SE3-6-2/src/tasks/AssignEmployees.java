@@ -27,13 +27,13 @@ public class AssignEmployees {
 	public static void addAssign(final Tool tool){
 		HeaderScreen headerScreen=new HeaderScreen();
 		headerScreen.getHeaderMenuScreen(tool);
-		final JLabel label=new JLabel("Assign Developer");
+		final JLabel label=new JLabel("Assign-Developer");
 		label.setFont(new Font("Courier New", Font.ITALIC, 24));
 		label.setForeground(Color.WHITE);
 		label.setBounds(225,125,250,20);
 		tool.getPanel().add(label);
 		
-		JLabel numberLabel = new JLabel("Select Project");
+		JLabel numberLabel = new JLabel("Select-Project");
 		numberLabel.setBounds(175, 165, 100, 20);
 		numberLabel.setForeground(Color.WHITE);
 		tool.getPanel().add(numberLabel);
