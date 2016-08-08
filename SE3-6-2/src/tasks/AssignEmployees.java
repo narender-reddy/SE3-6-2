@@ -20,6 +20,7 @@ import au.com.bytecode.opencsv.CSVReader;
 import au.com.bytecode.opencsv.CSVWriter;
 import menu.MenuScreen;
 import service.HeaderScreen;
+import service.MaintainDatabase;
 import service.Tool;
 
 public class AssignEmployees {
@@ -37,10 +38,15 @@ public class AssignEmployees {
 		numberLabel.setForeground(Color.WHITE);
 		tool.getPanel().add(numberLabel);
 		
-//		final JTextField semesterName = new JTextField();
-//		semesterName.setBounds(275, 163, 75, 30);
-//	    tool.getPanel().add(semesterName);
-	    String projectLabels[] = {"Project1", "Project2", "Project3", "Project4", "Project5"};
+	    String projectLabels[] = new String[0];
+	    Vector projectdata=tool.getProjects();
+	    if(projectdata!=null  && projectdata.size()!=0){
+	    	projectLabels=new String[projectdata.size()];
+	    	for(int arg=0;arg<projectdata.size();arg++){
+	    		String[] project=(String[])projectdata.get(arg);
+	    		projectLabels[arg]=project[2];
+	    	}
+	    }
 	    final JComboBox projectComboBox = new JComboBox(projectLabels);
 	    projectComboBox.setMaximumRowCount(4);
 	    projectComboBox.setSelectedIndex(0);
@@ -51,12 +57,16 @@ public class AssignEmployees {
 		nameLabel.setBounds(175, 200, 115, 20);
 		nameLabel.setForeground(Color.WHITE);
 		tool.getPanel().add(nameLabel);
-		
-//		final JTextField numTextField = new JTextField();
-//		numTextField.setBounds(205, 198, 150, 25);
-//		tool.getPanel().add(numTextField);
-		
-		String developerLabels[] = {"Developer1", "Developer2", "Developer3", "Developer4", "Developer5"};
+		MaintainDatabase maintainDatabase=new MaintainDatabase();
+		Vector developers=maintainDatabase.employeesDeveloperData();
+		String developerLabels[] = new String[0];
+		if(developers!=null  && developers.size()!=0){
+			developerLabels=new String[developers.size()];
+	    	for(int arg=0;arg<developers.size();arg++){
+	    		String[] developer=(String[])developers.get(arg);
+	    		projectLabels[arg]=developer[0];
+	    	}
+	    }
 	    final JComboBox developerComboBox = new JComboBox(developerLabels);
 	    developerComboBox.setMaximumRowCount(4);
 	    developerComboBox.setSelectedIndex(0);
@@ -86,11 +96,25 @@ public class AssignEmployees {
 		tool.getPanel().add(cancelButton);
 		
 		
-		final JButton addCourse = new JButton("Assign");
-		addCourse.setBackground(Color.GREEN);		
-		addCourse.setFont(new Font("Courier New", Font.PLAIN, 18));		
-		addCourse.setBounds(305,300,200,30);
-		tool.getPanel().add(addCourse);
+		final JButton assignbutton = new JButton("Assign");
+		assignbutton.setBackground(Color.GREEN);		
+		assignbutton.setFont(new Font("Courier New", Font.PLAIN, 18));
+		assignbutton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String projectnumber=((projectComboBox.getItemAt(projectComboBox.getSelectedIndex()))).toString();
+				String developername=((developerComboBox.getItemAt(developerComboBox.getSelectedIndex()))).toString();
+				try{
+					MaintainDatabase maintainDatabase=new MaintainDatabase();
+					maintainDatabase.assignDeveloperData(projectnumber, developername);
+					JOptionPane.showMessageDialog(assignbutton, "Developer assigned successfully to selected project");
+					addAssign(tool);
+				}catch(Exception ex){
+					ex.printStackTrace();
+				}
+			}
+		});
+		assignbutton.setBounds(305,300,200,30);
+		tool.getPanel().add(assignbutton);
 		
 		tool.getPanel().repaint();
 	}
