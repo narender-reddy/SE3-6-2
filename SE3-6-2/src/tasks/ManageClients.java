@@ -121,48 +121,36 @@ public class ManageClients {
 		invoiceFreqLabel.setForeground(Color.WHITE);
 		tool.getPanel().add(invoiceFreqLabel);
 		
-//		final JTextField invoiceFreqTextField = new JTextField();
-//		invoiceFreqTextField.setBounds(400, 303, 125, 25);
-//		tool.getPanel().add(invoiceFreqTextField);
-		
 		String invoiceFreqLabels[] = {"Weekly", "BiWeekly"};
-	    final JComboBox invoiceFreqComboBox = new JComboBox(invoiceFreqLabels);
-	    invoiceFreqComboBox.setMaximumRowCount(4);
-	    invoiceFreqComboBox.setSelectedIndex(0);
-	    invoiceFreqComboBox.setBounds(400, 303, 125, 25);
-	    tool.getPanel().add(invoiceFreqComboBox);
+	    final JComboBox invoiceFrequenciesComboBox = new JComboBox(invoiceFreqLabels);
+	    invoiceFrequenciesComboBox.setMaximumRowCount(4);
+	    invoiceFrequenciesComboBox.setSelectedIndex(0);
+	    invoiceFrequenciesComboBox.setBounds(400, 303, 125, 25);
+	    tool.getPanel().add(invoiceFrequenciesComboBox);
 		
 		JLabel billingtermsLabel = new JLabel("Billing Terms");
 		billingtermsLabel.setBounds(60, 335, 100, 20);
 		billingtermsLabel.setForeground(Color.WHITE);
 		tool.getPanel().add(billingtermsLabel);
 		
-//		final JTextField billingtermsTextField = new JTextField();
-//		billingtermsTextField.setBounds(145, 333, 125, 25);
-//		tool.getPanel().add(billingtermsTextField);
-		
-		String billingtermsLabels[] = {"Net 10", "Net 20", "Net 30", "Net 60"};
-	    final JComboBox billingtermsComboBox = new JComboBox(billingtermsLabels);
-	    billingtermsComboBox.setMaximumRowCount(4);
-	    billingtermsComboBox.setSelectedIndex(0);
-	    billingtermsComboBox.setBounds(145, 333, 125, 25);
-	    tool.getPanel().add(billingtermsComboBox);
+		String billingtermsLabels[] = {"Due on Recipt", "Net 10", "Net 20", "Net 30", "Net 60"};
+	    final JComboBox billingtermsesComboBox = new JComboBox(billingtermsLabels);
+	    billingtermsesComboBox.setMaximumRowCount(4);
+	    billingtermsesComboBox.setSelectedIndex(0);
+	    billingtermsesComboBox.setBounds(145, 333, 125, 25);
+	    tool.getPanel().add(billingtermsesComboBox);
 		
 		JLabel invoiceGroupingLabel = new JLabel("Invoice Grouping");
 		invoiceGroupingLabel.setBounds(300, 335, 100, 20);
 		invoiceGroupingLabel.setForeground(Color.WHITE);
 		tool.getPanel().add(invoiceGroupingLabel);
-		
-//		final JTextField invoiceGroupingTextField = new JTextField();
-//		invoiceGroupingTextField.setBounds(400, 333, 125, 25);
-//		tool.getPanel().add(invoiceGroupingTextField);
-		
+
 		String invoiceGroupingLabels[] = {"Project", "Invoice"};
-	    final JComboBox invoiceGroupingComboBox = new JComboBox(invoiceGroupingLabels);
-	    invoiceGroupingComboBox.setMaximumRowCount(4);
-	    invoiceGroupingComboBox.setSelectedIndex(0);
-	    invoiceGroupingComboBox.setBounds(400, 333, 125, 25);
-	    tool.getPanel().add(invoiceGroupingComboBox);
+	    final JComboBox invoiceGroupesComboBox = new JComboBox(invoiceGroupingLabels);
+	    invoiceGroupesComboBox.setMaximumRowCount(4);
+	    invoiceGroupesComboBox.setSelectedIndex(0);
+	    invoiceGroupesComboBox.setBounds(400, 333, 125, 25);
+	    tool.getPanel().add(invoiceGroupesComboBox);
 		
 		JButton exitButton = new JButton("Exit");
 		exitButton.setBackground(Color.GREEN);		
@@ -192,9 +180,15 @@ public class ManageClients {
 		addClient.setFont(new Font("Courier New", Font.PLAIN, 18));
 		addClient.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(numberTextField!=null && numberTextField.getText().trim().length()!=0 && nameTextField!=null && nameTextField.getText().trim().length()!=0){
+				if(numberTextField!=null && numberTextField.getText().trim().length()!=0 && nameTextField!=null && nameTextField.getText().trim().length()!=0 
+				&& addressLine1TextField!=null && addressLine1TextField.getText().trim().length()!=0 && cityTextField!=null && cityTextField.getText().trim().length()!=0
+				&& stateTextField!=null && stateTextField.getText().trim().length()!=0 && zipTextField!=null && zipTextField.getText().trim().length()!=0 
+				&& emailTextField!=null && emailTextField.getText().trim().length()!=0 && contactTextField!=null && contactTextField.getText().trim().length()!=0){
 					try{
-						
+						MaintainDatabase maintainDatabase=new MaintainDatabase();
+						maintainDatabase.saveClientData(numberTextField.getText(), nameTextField.getText(), addressLine1TextField.getText(), addressLine2TextField.getText(), cityTextField.getText(), stateTextField.getText(), zipTextField.getText(), emailTextField.getText(), contactTextField.getText(), ((invoiceFrequenciesComboBox.getItemAt(invoiceFrequenciesComboBox.getSelectedIndex()))).toString(), ((billingtermsesComboBox.getItemAt(billingtermsesComboBox.getSelectedIndex()))).toString(), ((invoiceGroupesComboBox.getItemAt(invoiceGroupesComboBox.getSelectedIndex()))).toString());
+						tool.setClients(maintainDatabase.clientsData());
+						ManageClients.viewClients(tool);
 					}catch(Exception ex){
 						ex.printStackTrace();
 					}
@@ -209,7 +203,7 @@ public class ManageClients {
 		tool.getPanel().repaint();
 	}
 	
-	public static void editClient(final Tool tool){
+	public static void editClient(final Tool tool,final String[] split){
 		HeaderScreen headerScreen=new HeaderScreen();
 		headerScreen.getHeaderMenuScreen(tool);
 		final JLabel label=new JLabel("Edit Client");
@@ -224,6 +218,7 @@ public class ManageClients {
 		tool.getPanel().add(numberLabel);
 		
 		final JTextField numberTextField = new JTextField();
+		numberTextField.setText(split[0]);
 		numberTextField.setBounds(145, 163, 125, 25);
 		tool.getPanel().add(numberTextField);
 		
@@ -233,6 +228,7 @@ public class ManageClients {
 		tool.getPanel().add(nameLabel);
 		
 		final JTextField nameTextField = new JTextField();
+		nameTextField.setText(split[1]);
 		nameTextField.setBounds(145, 198, 125, 25);
 		tool.getPanel().add(nameTextField);
 		
@@ -242,6 +238,7 @@ public class ManageClients {
 		tool.getPanel().add(addressLine1Label);
 		
 		final JTextField addressLine1TextField = new JTextField();
+		addressLine1TextField.setText(split[2]);
 		addressLine1TextField.setBounds(145, 233, 125, 25);
 		tool.getPanel().add(addressLine1TextField);
 		
@@ -251,6 +248,7 @@ public class ManageClients {
 		tool.getPanel().add(addressLine2Label);
 		
 		final JTextField addressLine2TextField = new JTextField();
+		addressLine2TextField.setText(split[3]);
 		addressLine2TextField.setBounds(145, 268, 125, 25);
 		tool.getPanel().add(addressLine2TextField);
 		
@@ -260,6 +258,7 @@ public class ManageClients {
 		tool.getPanel().add(cityLabel);
 		
 		final JTextField cityTextField = new JTextField();
+		cityTextField.setText(split[4]);
 		cityTextField.setBounds(145, 303, 125, 25);
 		tool.getPanel().add(cityTextField);
 		
@@ -269,6 +268,7 @@ public class ManageClients {
 		tool.getPanel().add(stateLabel);
 		
 		final JTextField stateTextField = new JTextField();
+		stateTextField.setText(split[5]);
 		stateTextField.setBounds(400, 163, 125, 25);
 		tool.getPanel().add(stateTextField);
 		
@@ -278,6 +278,7 @@ public class ManageClients {
 		tool.getPanel().add(zipLabel);
 		
 		final JTextField zipTextField = new JTextField();
+		zipTextField.setText(split[6]);
 		zipTextField.setBounds(400, 198, 125, 25);
 		tool.getPanel().add(zipTextField);
 		
@@ -287,6 +288,7 @@ public class ManageClients {
 		tool.getPanel().add(emailLabel);
 		
 		final JTextField emailTextField = new JTextField();
+		emailTextField.setText(split[7]);
 		emailTextField.setBounds(400, 233, 125, 25);
 		tool.getPanel().add(emailTextField);
 		
@@ -296,6 +298,7 @@ public class ManageClients {
 		tool.getPanel().add(contactLabel);
 		
 		final JTextField contactTextField = new JTextField();
+		contactTextField.setText(split[8]);
 		contactTextField.setBounds(400, 268, 125, 25);
 		tool.getPanel().add(contactTextField);
 		
@@ -304,48 +307,36 @@ public class ManageClients {
 		invoiceFreqLabel.setForeground(Color.WHITE);
 		tool.getPanel().add(invoiceFreqLabel);
 		
-//		final JTextField invoiceFreqTextField = new JTextField();
-//		invoiceFreqTextField.setBounds(400, 303, 125, 25);
-//		tool.getPanel().add(invoiceFreqTextField);
-		
 		String invoiceFreqLabels[] = {"Weekly", "BiWeekly"};
-	    final JComboBox invoiceFreqComboBox = new JComboBox(invoiceFreqLabels);
-	    invoiceFreqComboBox.setMaximumRowCount(4);
-	    invoiceFreqComboBox.setSelectedIndex(0);
-	    invoiceFreqComboBox.setBounds(400, 303, 125, 25);
-	    tool.getPanel().add(invoiceFreqComboBox);
+	    final JComboBox invoiceFrequenciesComboBox = new JComboBox(invoiceFreqLabels);
+	    invoiceFrequenciesComboBox.setMaximumRowCount(4);
+	    invoiceFrequenciesComboBox.setSelectedItem(split[9]);
+	    invoiceFrequenciesComboBox.setBounds(400, 303, 125, 25);
+	    tool.getPanel().add(invoiceFrequenciesComboBox);
 		
 		JLabel billingtermsLabel = new JLabel("Billing Terms");
 		billingtermsLabel.setBounds(60, 335, 100, 20);
 		billingtermsLabel.setForeground(Color.WHITE);
 		tool.getPanel().add(billingtermsLabel);
 		
-//		final JTextField billingtermsTextField = new JTextField();
-//		billingtermsTextField.setBounds(145, 333, 125, 25);
-//		tool.getPanel().add(billingtermsTextField);
-		
-		String billingtermsLabels[] = {"Net 10", "Net 20", "Net 30", "Net 60"};
-	    final JComboBox billingtermsComboBox = new JComboBox(billingtermsLabels);
-	    billingtermsComboBox.setMaximumRowCount(4);
-	    billingtermsComboBox.setSelectedIndex(0);
-	    billingtermsComboBox.setBounds(145, 333, 125, 25);
-	    tool.getPanel().add(billingtermsComboBox);
+		String billingtermsLabels[] = {"Due on Recipt", "Net 10", "Net 20", "Net 30", "Net 60"};
+	    final JComboBox billingtermsesComboBox = new JComboBox(billingtermsLabels);
+	    billingtermsesComboBox.setMaximumRowCount(4);
+	    billingtermsesComboBox.setSelectedItem(split[10]);
+	    billingtermsesComboBox.setBounds(145, 333, 125, 25);
+	    tool.getPanel().add(billingtermsesComboBox);
 		
 		JLabel invoiceGroupingLabel = new JLabel("Invoice Grouping");
 		invoiceGroupingLabel.setBounds(300, 335, 100, 20);
 		invoiceGroupingLabel.setForeground(Color.WHITE);
 		tool.getPanel().add(invoiceGroupingLabel);
-		
-//		final JTextField invoiceGroupingTextField = new JTextField();
-//		invoiceGroupingTextField.setBounds(400, 333, 125, 25);
-//		tool.getPanel().add(invoiceGroupingTextField);
-		
+				
 		String invoiceGroupingLabels[] = {"Project", "Invoice"};
-	    final JComboBox invoiceGroupingComboBox = new JComboBox(invoiceGroupingLabels);
-	    invoiceGroupingComboBox.setMaximumRowCount(4);
-	    invoiceGroupingComboBox.setSelectedIndex(0);
-	    invoiceGroupingComboBox.setBounds(400, 333, 125, 25);
-	    tool.getPanel().add(invoiceGroupingComboBox);
+	    final JComboBox invoiceGroupesComboBox = new JComboBox(invoiceGroupingLabels);
+	    invoiceGroupesComboBox.setMaximumRowCount(4);
+	    invoiceGroupesComboBox.setSelectedItem(split[11]);
+	    invoiceGroupesComboBox.setBounds(400, 333, 125, 25);
+	    tool.getPanel().add(invoiceGroupesComboBox);
 		
 		
 		JButton exitButton = new JButton("Exit");
@@ -371,24 +362,30 @@ public class ManageClients {
 		tool.getPanel().add(cancelButton);
 		
 		
-		final JButton addClient = new JButton("Update Client");
-		addClient.setBackground(Color.GREEN);		
-		addClient.setFont(new Font("Courier New", Font.PLAIN, 18));
-		addClient.addActionListener(new ActionListener() {
+		final JButton updateClient = new JButton("Update Client");
+		updateClient.setBackground(Color.GREEN);		
+		updateClient.setFont(new Font("Courier New", Font.PLAIN, 18));
+		updateClient.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(numberTextField!=null && numberTextField.getText().trim().length()!=0 && nameTextField!=null && nameTextField.getText().trim().length()!=0){
+				if(numberTextField!=null && numberTextField.getText().trim().length()!=0 && nameTextField!=null && nameTextField.getText().trim().length()!=0 
+						&& addressLine1TextField!=null && addressLine1TextField.getText().trim().length()!=0 && cityTextField!=null && cityTextField.getText().trim().length()!=0
+						&& stateTextField!=null && stateTextField.getText().trim().length()!=0 && zipTextField!=null && zipTextField.getText().trim().length()!=0 
+						&& emailTextField!=null && emailTextField.getText().trim().length()!=0 && contactTextField!=null && contactTextField.getText().trim().length()!=0){
 					try{
-						
+						MaintainDatabase maintainDatabase=new MaintainDatabase();
+						maintainDatabase.updateClientData(numberTextField.getText(), nameTextField.getText(), addressLine1TextField.getText(), addressLine2TextField.getText(), cityTextField.getText(), stateTextField.getText(), zipTextField.getText(), emailTextField.getText(), contactTextField.getText(), ((invoiceFrequenciesComboBox.getItemAt(invoiceFrequenciesComboBox.getSelectedIndex()))).toString(), ((billingtermsesComboBox.getItemAt(billingtermsesComboBox.getSelectedIndex()))).toString(), ((invoiceGroupesComboBox.getItemAt(invoiceGroupesComboBox.getSelectedIndex()))).toString());
+						tool.setClients(maintainDatabase.clientsData());
+						ManageClients.viewClients(tool);
 					}catch(Exception ex){
 						ex.printStackTrace();
 					}
 				}else{
-					JOptionPane.showMessageDialog(addClient, "Please enter Client details");
+					JOptionPane.showMessageDialog(updateClient, "Please enter Client details");
 				}
 			}
 		});
-		addClient.setBounds(325,375,200,30);
-		tool.getPanel().add(addClient);
+		updateClient.setBounds(325,375,200,30);
+		tool.getPanel().add(updateClient);
 		
 		tool.getPanel().repaint();
 	}
@@ -452,46 +449,55 @@ public class ManageClients {
 		cancelButton.setBounds(250,450,100,30);
 		tool.getPanel().add(cancelButton);		
 		
-		JButton addButton = new JButton("Add Client");
-		addButton.setBackground(Color.GREEN);		
-		addButton.setFont(new Font("Courier New", Font.PLAIN, 18));
-		addButton.addActionListener(new ActionListener() {
+		JButton addclientButton = new JButton("Add Client");
+		addclientButton.setBackground(Color.GREEN);		
+		addclientButton.setFont(new Font("Courier New", Font.PLAIN, 18));
+		addclientButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				addClient(tool);
 			}
 		});
-		addButton.setBounds(50,400,150,30);
-		tool.getPanel().add(addButton);		
+		addclientButton.setBounds(50,400,150,30);
+		tool.getPanel().add(addclientButton);		
 		
-		final JButton updateButton = new JButton("Edit Client");
-		updateButton.setBackground(Color.GREEN);		
-		updateButton.setFont(new Font("Courier New", Font.PLAIN, 18));
-		updateButton.addActionListener(new ActionListener() {
+		final JButton updateclinetButton = new JButton("Edit Client");
+		updateclinetButton.setBackground(Color.GREEN);		
+		updateclinetButton.setFont(new Font("Courier New", Font.PLAIN, 18));
+		updateclinetButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				if(tool.getSelectedTableRowValue()!=-1){
-//					try{
-//						//editClient(tool);
-//					}catch(Exception ex){
-//						ex.printStackTrace();
-//					}
-//				}else{
-//					JOptionPane.showMessageDialog(updateButton, "Please you should select one row only");
-//				}						
+				if(tool.getSelectedTableRowValue()!=-1){
+					try{
+						String split[]=((String[])tool.getClients().get(tool.getSelectedTableRowValue()));
+						editClient(tool,split);
+					}catch(Exception ex){
+						ex.printStackTrace();
+					}
+				}else{
+					JOptionPane.showMessageDialog(updateclinetButton, "Please you should select one row only");
+				}						
 			}
 		});
-		updateButton.setBounds(205,400,170,30);
-		tool.getPanel().add(updateButton);
+		updateclinetButton.setBounds(205,400,170,30);
+		tool.getPanel().add(updateclinetButton);
 		
-		final JButton deleteButton = new JButton("InActive");
-		deleteButton.setBackground(Color.GREEN);		
-		deleteButton.setFont(new Font("Courier New", Font.PLAIN, 18));
-		deleteButton.addActionListener(new ActionListener() {
+		final JButton deleteclientButton = new JButton("InActive");
+		deleteclientButton.setBackground(Color.GREEN);		
+		deleteclientButton.setFont(new Font("Courier New", Font.PLAIN, 18));
+		deleteclientButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				try{
+					MaintainDatabase maintainDatabase=new MaintainDatabase();
+					String split[]=((String[])tool.getClients().get(tool.getSelectedTableRowValue()));
+					maintainDatabase.inactiveclient(split[0]);
+					tool.setClients(maintainDatabase.clientsData());
+					ManageClients.viewClients(tool);
+				}catch(Exception ex){
+					ex.printStackTrace();
+				}
 			}
 		});
-		deleteButton.setBounds(380,400,125,30);
-		tool.getPanel().add(deleteButton);
+		deleteclientButton.setBounds(380,400,125,30);
+		tool.getPanel().add(deleteclientButton);
 		
 		tool.getPanel().repaint();
 	}

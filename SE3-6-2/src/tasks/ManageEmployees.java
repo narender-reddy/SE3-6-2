@@ -68,16 +68,12 @@ public class ManageEmployees {
 		roleLabel.setForeground(Color.WHITE);
 		tool.getPanel().add(roleLabel);
 		
-//		final JTextField roleTextField = new JTextField();
-//		roleTextField.setBounds(415, 163, 100, 25);
-//		tool.getPanel().add(roleTextField);
-		
 		String roleLabels[] = {"Developer", "Project Manager", "Accountant"};
-	    final JComboBox roleComboBox = new JComboBox(roleLabels);
-	    roleComboBox.setMaximumRowCount(4);
-	    roleComboBox.setSelectedIndex(0);
-	    roleComboBox.setBounds(415, 163, 100, 25);
-	    tool.getPanel().add(roleComboBox);
+	    final JComboBox employeerolesComboBox = new JComboBox(roleLabels);
+	    employeerolesComboBox.setMaximumRowCount(4);
+	    employeerolesComboBox.setSelectedIndex(0);
+	    employeerolesComboBox.setBounds(415, 163, 100, 25);
+	    tool.getPanel().add(employeerolesComboBox);
 		
 		JButton exitButton = new JButton("Exit");
 		exitButton.setBackground(Color.GREEN);		
@@ -102,21 +98,31 @@ public class ManageEmployees {
 		tool.getPanel().add(cancelButton);
 		
 		
-		final  JButton addCourse = new JButton("Add Employee");
-		addCourse.setBackground(Color.GREEN);		
-		addCourse.setFont(new Font("Courier New", Font.PLAIN, 18));
-		addCourse.addActionListener(new ActionListener() {
+		final  JButton addEmployee = new JButton("Add Employee");
+		addEmployee.setBackground(Color.GREEN);		
+		addEmployee.setFont(new Font("Courier New", Font.PLAIN, 18));
+		addEmployee.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				if(nameTextField!=null && nameTextField.getText().trim().length()!=0 && titleTextField!=null && titleTextField.getText().trim().length()!=0 
+				&& billRateName!=null && billRateName.getText().trim().length()!=0){
+					try{
+						MaintainDatabase maintainDatabase=new MaintainDatabase();
+						maintainDatabase.saveEmployeeData(nameTextField.getText(), titleTextField.getText(), billRateName.getText(), ((employeerolesComboBox.getItemAt(employeerolesComboBox.getSelectedIndex()))).toString());
+						tool.setEmployees(maintainDatabase.employeesData());
+					}catch(Exception ex){
+						ex.printStackTrace();
+					}
+				}else{
+					JOptionPane.showMessageDialog(addEmployee, "Please enter Client details");
+				}
 			}
 		});
-		addCourse.setBounds(325,300,175,30);
-		tool.getPanel().add(addCourse);
-		
+		addEmployee.setBounds(325,300,175,30);
+		tool.getPanel().add(addEmployee);		
 		tool.getPanel().repaint();
 	}
 	
-	public static void editEmployee(final Tool tool){
+	public static void editEmployee(final Tool tool,final String[] split){
 		HeaderScreen headerScreen=new HeaderScreen();
 		headerScreen.getHeaderMenuScreen(tool);
 		final JLabel label=new JLabel("Update Employee");
@@ -131,6 +137,7 @@ public class ManageEmployees {
 		tool.getPanel().add(nameLabel);
 		
 		final JTextField nameTextField = new JTextField();
+		nameTextField.setText(split[0]);
 		nameTextField.setBounds(155, 163, 125, 25);
 		tool.getPanel().add(nameTextField);
 		
@@ -140,6 +147,7 @@ public class ManageEmployees {
 		tool.getPanel().add(titleLabel);
 		
 		final JTextField titleTextField = new JTextField();
+		titleTextField.setText(split[1]);
 		titleTextField.setBounds(155, 198, 125, 25);
 		tool.getPanel().add(titleTextField);
 		
@@ -149,6 +157,7 @@ public class ManageEmployees {
 		tool.getPanel().add(billRateLabel);
 		
 		final JTextField billRateName = new JTextField();
+		billRateName.setText(split[3]);
 		billRateName.setBounds(155, 233, 125, 25);
 		tool.getPanel().add(billRateName);
 		
@@ -157,9 +166,12 @@ public class ManageEmployees {
 		roleLabel.setForeground(Color.WHITE);
 		tool.getPanel().add(roleLabel);
 		
-		final JTextField roleTextField = new JTextField();
-		roleTextField.setBounds(415, 163, 100, 25);
-		tool.getPanel().add(roleTextField);
+		String roleLabels[] = {"Developer", "Project Manager", "Accountant"};
+	    final JComboBox employeerolesComboBox = new JComboBox(roleLabels);
+	    employeerolesComboBox.setMaximumRowCount(4);
+	    employeerolesComboBox.setSelectedItem(split[2]);
+	    employeerolesComboBox.setBounds(415, 163, 100, 25);
+	    tool.getPanel().add(employeerolesComboBox);
 		
 		JButton exitButton = new JButton("Exit");
 		exitButton.setBackground(Color.GREEN);		
@@ -184,16 +196,27 @@ public class ManageEmployees {
 		tool.getPanel().add(cancelButton);
 		
 		
-		final JButton addCourse = new JButton("Update Employee");
-		addCourse.setBackground(Color.GREEN);		
-		addCourse.setFont(new Font("Courier New", Font.PLAIN, 18));
-		addCourse.addActionListener(new ActionListener() {
+		final JButton updateEmployee = new JButton("Update Employee");
+		updateEmployee.setBackground(Color.GREEN);		
+		updateEmployee.setFont(new Font("Courier New", Font.PLAIN, 18));
+		updateEmployee.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				if(nameTextField!=null && nameTextField.getText().trim().length()!=0 && titleTextField!=null && titleTextField.getText().trim().length()!=0 
+						&& billRateName!=null && billRateName.getText().trim().length()!=0){
+							try{
+								MaintainDatabase maintainDatabase=new MaintainDatabase();
+								maintainDatabase.updateEmployeeData(nameTextField.getText(), titleTextField.getText(), billRateName.getText(), ((employeerolesComboBox.getItemAt(employeerolesComboBox.getSelectedIndex()))).toString());
+								tool.setEmployees(maintainDatabase.employeesData());
+							}catch(Exception ex){
+								ex.printStackTrace();
+							}
+						}else{
+							JOptionPane.showMessageDialog(updateEmployee, "Please enter Client details");
+						}
 			}
 		});
-		addCourse.setBounds(325,300,200,30);
-		tool.getPanel().add(addCourse);
+		updateEmployee.setBounds(325,300,200,30);
+		tool.getPanel().add(updateEmployee);
 		
 		tool.getPanel().repaint();
 	}
@@ -259,46 +282,54 @@ public class ManageEmployees {
 		cancelButton.setBounds(250,450,100,30);
 		tool.getPanel().add(cancelButton);		
 		
-		JButton addButton = new JButton("Add Employee");
-		addButton.setBackground(Color.GREEN);		
-		addButton.setFont(new Font("Courier New", Font.PLAIN, 18));
-		addButton.addActionListener(new ActionListener() {
+		JButton addemployeeButton = new JButton("Add Employee");
+		addemployeeButton.setBackground(Color.GREEN);		
+		addemployeeButton.setFont(new Font("Courier New", Font.PLAIN, 18));
+		addemployeeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				addEmployee(tool);
 			}
 		});
-		addButton.setBounds(50,400,200,30);
-		tool.getPanel().add(addButton);		
+		addemployeeButton.setBounds(50,400,200,30);
+		tool.getPanel().add(addemployeeButton);		
 		
-		final JButton updateButton = new JButton("Edit Employee");
-		updateButton.setBackground(Color.GREEN);		
-		updateButton.setFont(new Font("Courier New", Font.PLAIN, 18));
-		updateButton.addActionListener(new ActionListener() {
+		final JButton updateemployeeButton = new JButton("Edit Employee");
+		updateemployeeButton.setBackground(Color.GREEN);		
+		updateemployeeButton.setFont(new Font("Courier New", Font.PLAIN, 18));
+		updateemployeeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(tool.getSelectedTableRowValue()!=-1){
 					try{
-						editEmployee(tool);
+						String split[]=((String[])tool.getEmployees().get(tool.getSelectedTableRowValue()));
+						editEmployee(tool,split);
 					}catch(Exception ex){
 						ex.printStackTrace();
 					}
 				}else{
-					JOptionPane.showMessageDialog(updateButton, "Please you should select one row only");
+					JOptionPane.showMessageDialog(updateemployeeButton, "Please you should select one row only");
 				}	
 			}
 		});
-		updateButton.setBounds(265,400,200,30);
-		tool.getPanel().add(updateButton);
+		updateemployeeButton.setBounds(265,400,200,30);
+		tool.getPanel().add(updateemployeeButton);
 		
-		final JButton deleteButton = new JButton("InActive");
-		deleteButton.setBackground(Color.GREEN);		
-		deleteButton.setFont(new Font("Courier New", Font.PLAIN, 18));
-		deleteButton.addActionListener(new ActionListener() {
+		final JButton deleteemployeeButton = new JButton("InActive");
+		deleteemployeeButton.setBackground(Color.GREEN);		
+		deleteemployeeButton.setFont(new Font("Courier New", Font.PLAIN, 18));
+		deleteemployeeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-					
+				try{
+					MaintainDatabase maintainDatabase=new MaintainDatabase();
+					String split[]=((String[])tool.getEmployees().get(tool.getSelectedTableRowValue()));
+					maintainDatabase.inactiveemployee(split[0]);						
+					tool.setEmployees(maintainDatabase.employeesData());
+				}catch(Exception ex){
+					ex.printStackTrace();
+				}
 			}
 		});
-		deleteButton.setBounds(480,400,125,30);
-		tool.getPanel().add(deleteButton);
+		deleteemployeeButton.setBounds(480,400,125,30);
+		tool.getPanel().add(deleteemployeeButton);
 		
 		tool.getPanel().repaint();
 	}

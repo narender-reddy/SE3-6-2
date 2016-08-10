@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -32,7 +33,7 @@ public class HeaderScreen {
 			label.setBounds(150,50,400,25);
 			tool.getPanel().add(label);
 			
-			JButton logout = new JButton("Log-out");
+			JButton logout = new JButton("Logout");
 			logout.setBackground(Color.GREEN);		
 			logout.setFont(new Font("Courier New", Font.PLAIN, 18));
 			logout.addActionListener(new ActionListener(){
@@ -111,7 +112,7 @@ public class HeaderScreen {
 				});	    
 			    tool.getPanel().add(projectButton);
 			    
-			    final JButton timeApproveButton = new JButton("Time Approve");
+			    final JButton timeApproveButton = new JButton("Time-Approve");
 			    timeApproveButton.setBounds(310, 90, 125, 30);
 			    timeApproveButton.addActionListener(new ActionListener() {
 			         public void actionPerformed(ActionEvent e) {
@@ -141,10 +142,16 @@ public class HeaderScreen {
 				projectLabel.setForeground(Color.WHITE);
 				tool.getPanel().add(projectLabel);
 				
-//				final JTextField project = new JTextField();
-//				project.setBounds(275, 148, 225, 25);
-//				tool.getPanel().add(project);
-				String projectLabels[] = {"Project1", "Project2", "Project3", "Project4", "Project5"};
+				MaintainDatabase maintainDatabase=new MaintainDatabase();
+				String projectLabels[] = new String[0];
+				Vector projectdata=maintainDatabase.developerProjectsData(tool.getUserName());
+			    if(projectdata!=null  && projectdata.size()!=0){
+			    	projectLabels=new String[projectdata.size()];
+			    	for(int arg=0;arg<projectdata.size();arg++){
+			    		String[] project=(String[])projectdata.get(arg);
+			    		projectLabels[arg]=project[0];
+			    	}
+			    }
 			    final JComboBox projectComboBox = new JComboBox(projectLabels);
 			    projectComboBox.setMaximumRowCount(4);
 			    projectComboBox.setSelectedIndex(0);
