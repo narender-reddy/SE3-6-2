@@ -24,7 +24,7 @@ public class HomeScreen{
 	}
 	private void initialize(){
 		frame = new JFrame();
-		frame.setTitle("INVOICE GEENERATION");
+		frame.setTitle("INVOICE GENERATION");
 		frame.setBounds(100, 25, 700, 700);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		panel=new JPanel();

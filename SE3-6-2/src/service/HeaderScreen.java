@@ -26,7 +26,7 @@ public class HeaderScreen {
 	public void getHeaderMenuScreen(final Tool tool){
 		if(tool!=null && tool.getUserType()!=null){
 			tool.getPanel().removeAll();
-			final JLabel label=new JLabel("Welcomei "+tool.getUserType());
+			final JLabel label=new JLabel("Welcome "+tool.getUserType());
 			label.setFont(new Font("Courier New", Font.ITALIC, 24));
 			label.setForeground(Color.WHITE);
 			label.setBounds(150,50,400,25);
