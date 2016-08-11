@@ -33,7 +33,7 @@ public class HeaderScreen {
 			label.setBounds(150,50,400,25);
 			tool.getPanel().add(label);
 			
-			JButton logout = new JButton("Logout");
+			JButton logout = new JButton("Log-out");
 			logout.setBackground(Color.GREEN);		
 			logout.setFont(new Font("Courier New", Font.PLAIN, 18));
 			logout.addActionListener(new ActionListener(){
@@ -112,7 +112,7 @@ public class HeaderScreen {
 				});	    
 			    tool.getPanel().add(projectButton);
 			    
-			    final JButton timeApproveButton = new JButton("Time-Approve");
+			    final JButton timeApproveButton = new JButton("Time Approve");
 			    timeApproveButton.setBounds(310, 90, 125, 30);
 			    timeApproveButton.addActionListener(new ActionListener() {
 			         public void actionPerformed(ActionEvent e) {
