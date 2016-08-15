@@ -101,7 +101,19 @@ public class Reports {
 		Object rowData[][]= { { "Data", "Data", "Data"},
                 			{ "Data", "Data", "Data"} };
 		Object columnNames[] = { "Client Name", "Project Name", "Budget"};
-		
+		MaintainDatabase maintainDatabase=new MaintainDatabase();
+		Vector project=maintainDatabase.projectsReportData();
+		if(project!=null && project.size()!=0){
+			rowData=new Object[project.size()][3];
+			for(int i=0;i<project.size();i++){
+				String split[]=((String[])project.get(i));
+				if(split!=null){
+					rowData[i][0]=split[0];
+					rowData[i][1]=split[1];
+					rowData[i][2]=split[2];
+				}
+			}
+		}
 		final JTable courseTable = new JTable(rowData, columnNames);
 		courseTable.setRowSelectionAllowed(true);
 		JScrollPane scroll = new JScrollPane(courseTable);
@@ -145,13 +157,24 @@ public class Reports {
 		Object rowData[][]= { { "Data", "Data", "Data", "Data", "Data", "Data", "Data"},
                 			{ "Data", "Data", "Data", "Data", "Data", "Data", "Data"} };
 		Object columnNames[] = { "Name", "Title", "Role", "Bill Rate", "Date", "Worked Hours", "Total Pay Amount"};
-		
+		MaintainDatabase maintainDatabase=new MaintainDatabase();
+		Vector project=maintainDatabase.employeeReportData();
+		if(project!=null && project.size()!=0){
+			rowData=new Object[project.size()][7];
+			for(int i=0;i<project.size();i++){
+				String split[]=((String[])project.get(i));
+				if(split!=null){
+					rowData[i][0]=split[0];
+					rowData[i][1]=split[1];
+					rowData[i][2]=split[2];
+				}
+			}
+		}
 		final JTable courseTable = new JTable(rowData, columnNames);
 		courseTable.setRowSelectionAllowed(true);
 		JScrollPane scroll = new JScrollPane(courseTable);
 		scroll.setBounds(50, 150, 450, 225);
 		tool.getPanel().add(scroll);
-		
 		
 		JButton exitButton = new JButton("Exit");
 		exitButton.setBackground(Color.GREEN);		
@@ -187,16 +210,30 @@ public class Reports {
 		label.setBounds(225,125,250,20);
 		tool.getPanel().add(label);
 		
-		Object rowData[][]= { { "Data", "Data", "Data", "Data"},
-                { "Data", "Data", "Data", "Data"} };
+		Object rowData[][]= { { "Data", "Data", "Data", "Data", "Data"},
+                { "Data", "Data", "Data", "Data", "Data"} };
 		
-		Object columnNames[] = { "Client Name", "Project Name", "Invoice Date", "Total Amount"};
-		
-		JTable table = new JTable(rowData, columnNames);
-		JScrollPane scroll = new JScrollPane(table);
+		Object columnNames[] = { "Client Name", "Project Number", "Invoice Number", "Invoice Date", "Total Amount"};
+		MaintainDatabase maintainDatabase=new MaintainDatabase();
+		Vector project=maintainDatabase.invoiceReportData();
+		if(project!=null && project.size()!=0){
+			rowData=new Object[project.size()][5];
+			for(int i=0;i<project.size();i++){
+				String split[]=((String[])project.get(i));
+				if(split!=null){
+					rowData[i][0]=split[0];
+					rowData[i][1]=split[1];
+					rowData[i][2]=split[4];
+					rowData[i][3]=split[2];
+					rowData[i][4]=split[3];
+				}
+			}
+		}
+		final JTable courseTable = new JTable(rowData, columnNames);
+		courseTable.setRowSelectionAllowed(true);
+		JScrollPane scroll = new JScrollPane(courseTable);
 		scroll.setBounds(50, 150, 450, 225);
 		tool.getPanel().add(scroll);
-		
 		
 		JButton exitButton = new JButton("Exit");
 		exitButton.setBackground(Color.GREEN);		

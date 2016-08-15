@@ -382,7 +382,9 @@ public class ManageProjects {
 			}
 		});
 		addprojectButton.setBounds(50,400,170,30);
-		tool.getPanel().add(addprojectButton);		
+		if(tool.getUserType().equalsIgnoreCase("Accountnat")){
+			tool.getPanel().add(addprojectButton);
+		}
 		
 		final JButton updateprojectButton = new JButton("Edit Project");
 		updateprojectButton.setBackground(Color.GREEN);		

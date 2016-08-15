@@ -4,6 +4,10 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Timer;
 import java.util.Vector;
 
 import javax.swing.JButton;
@@ -16,10 +20,10 @@ import javax.swing.JTextField;
 
 import menu.MenuScreen;
 import tasks.AssignEmployees;
-import tasks.PDFInvoices;
-import tasks.ManageEmployees;
 import tasks.ManageClients;
+import tasks.ManageEmployees;
 import tasks.ManageProjects;
+import tasks.PDFInvoices;
 import tasks.Reports;
 import tasks.TimeApprove;
 
@@ -27,7 +31,7 @@ public class HeaderScreen {
 	public void getHeaderMenuScreen(final Tool tool){
 		if(tool!=null && tool.getUserType()!=null){
 			tool.getPanel().removeAll();
-			final JLabel label=new JLabel("Welcomei "+tool.getUserType());
+			final JLabel label=new JLabel("Welcome "+tool.getUserType());
 			label.setFont(new Font("Courier New", Font.ITALIC, 24));
 			label.setForeground(Color.WHITE);
 			label.setBounds(150,50,400,25);
@@ -112,7 +116,7 @@ public class HeaderScreen {
 				});	    
 			    tool.getPanel().add(projectButton);
 			    
-			    final JButton timeApproveButton = new JButton("Time-Approve");
+			    final JButton timeApproveButton = new JButton("Time Approve");
 			    timeApproveButton.setBounds(310, 90, 125, 30);
 			    timeApproveButton.addActionListener(new ActionListener() {
 			         public void actionPerformed(ActionEvent e) {
@@ -136,65 +140,97 @@ public class HeaderScreen {
 				label1.setForeground(Color.WHITE);
 				label1.setBounds(200,100,350,30);
 				tool.getPanel().add(label1);
-				
-				JLabel projectLabel = new JLabel("Select Project");
-				projectLabel.setBounds(175, 150, 100, 20);
-				projectLabel.setForeground(Color.WHITE);
-				tool.getPanel().add(projectLabel);
-				
 				MaintainDatabase maintainDatabase=new MaintainDatabase();
 				String projectLabels[] = new String[0];
-				Vector projectdata=maintainDatabase.developerProjectsData(tool.getUserName());
-			    if(projectdata!=null  && projectdata.size()!=0){
-			    	projectLabels=new String[projectdata.size()];
-			    	for(int arg=0;arg<projectdata.size();arg++){
-			    		String[] project=(String[])projectdata.get(arg);
-			    		projectLabels[arg]=project[0];
-			    	}
-			    }
-			    final JComboBox projectComboBox = new JComboBox(projectLabels);
-			    projectComboBox.setMaximumRowCount(4);
-			    projectComboBox.setSelectedIndex(0);
-			    projectComboBox.setBounds(275, 148, 225, 25);
-			    tool.getPanel().add(projectComboBox);
-			    
-				JLabel dateLabel = new JLabel("Date");
-				dateLabel.setBounds(175, 180, 100, 20);
-				dateLabel.setForeground(Color.WHITE);
-				tool.getPanel().add(dateLabel);
+				final Vector projectdata=maintainDatabase.developerProjectsData(tool.getUserName());
+				if(projectdata!=null && projectdata.size()!=0){
+					
+										
+//					final DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+//			        ActionListener timerListener = new ActionListener(){
+//			            public void actionPerformed(ActionEvent e){
+//			                Date date = new Date();
+//			                String time = timeFormat.format(date);
+//			                projectLabel.setText(time);
+//			            }
+//			        };
+//			        Timer timer = new Timer(1000, timerListener);
+//			        // to make sure it doesn't wait one second at the start
+//			        timer.setInitialDelay(0);
+//			        timer.start();
+//					
+					
+					
+					JLabel projectLabel = new JLabel("Select Project");
+					projectLabel.setBounds(175, 150, 100, 20);
+					projectLabel.setForeground(Color.WHITE);
+					tool.getPanel().add(projectLabel);
+					
+					if(projectdata!=null  && projectdata.size()!=0){
+				    	projectLabels=new String[projectdata.size()];
+				    	for(int arg=0;arg<projectdata.size();arg++){
+				    		String[] project=(String[])projectdata.get(arg);
+				    		projectLabels[arg]=project[0];
+				    	}
+				    }
+				    final JComboBox projectComboBox = new JComboBox(projectLabels);
+				    projectComboBox.setMaximumRowCount(4);
+				    //projectComboBox.setSelectedIndex(0);
+				    projectComboBox.setBounds(275, 148, 225, 25);
+				    tool.getPanel().add(projectComboBox);
+				    
+					JLabel dateLabel = new JLabel("Date");
+					dateLabel.setBounds(175, 180, 100, 20);
+					dateLabel.setForeground(Color.WHITE);
+					tool.getPanel().add(dateLabel);
+					
+					final JTextField date = new JTextField();
+					date.setBounds(275, 178, 225, 25);
+					tool.getPanel().add(date);
+					
+					JLabel startLabel = new JLabel("Hours");
+					startLabel.setBounds(175, 210, 100, 20);
+					startLabel.setForeground(Color.WHITE);
+					tool.getPanel().add(startLabel);
+					
+					final JTextField starttime= new JTextField();
+					starttime.setBounds(275, 208, 225, 25);		
+					tool.getPanel().add(starttime);
+					
+					JLabel endLabel = new JLabel("End Time");
+					endLabel.setBounds(175, 240, 100, 20);
+					endLabel.setForeground(Color.WHITE);
+					//tool.getPanel().add(endLabel);
+					
+					final JTextField endtime= new JTextField();
+					endtime.setBounds(275, 238, 225, 25);		
+					//tool.getPanel().add(endtime);
+					
+					final JButton loginButton = new JButton("Save");
+					loginButton.setBackground(Color.GREEN);		
+					loginButton.setFont(new Font("Courier New", Font.PLAIN, 18));
+					loginButton.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							try{
+								MaintainDatabase maintainDatabase=new MaintainDatabase();
+								String[] employeedata=maintainDatabase.employeeinformation(tool.getUserName());
+								String[] projectinfo=(String[])projectdata.get(projectComboBox.getSelectedIndex());
+								maintainDatabase.developerworkhours(projectinfo[0], projectinfo[1], tool.getUserName(),date.getText(), starttime.getText(), employeedata[3]);
+								JOptionPane.showMessageDialog(loginButton, "Developer added work hours successfully to selected project");
+							}catch(Exception ex){
+								ex.printStackTrace();
+							}
+						}
+					});
+					loginButton.setBounds(275, 300, 125, 30);	
+					tool.getPanel().add(loginButton);
+				}else{
+					JLabel projectLabel = new JLabel("There are no projects assigned to logged developer");
+					projectLabel.setBounds(175, 150, 400, 20);
+					projectLabel.setForeground(Color.WHITE);
+					tool.getPanel().add(projectLabel);
+				}
 				
-				final JTextField date = new JTextField();
-				date.setBounds(275, 178, 225, 25);
-				tool.getPanel().add(date);
-				
-				JLabel startLabel = new JLabel("Start Time");
-				startLabel.setBounds(175, 210, 100, 20);
-				startLabel.setForeground(Color.WHITE);
-				tool.getPanel().add(startLabel);
-				
-				final JTextField starttime= new JTextField();
-				starttime.setBounds(275, 208, 225, 25);		
-				tool.getPanel().add(starttime);
-				
-				JLabel endLabel = new JLabel("End Time");
-				endLabel.setBounds(175, 240, 100, 20);
-				endLabel.setForeground(Color.WHITE);
-				tool.getPanel().add(endLabel);
-				
-				final JTextField endtime= new JTextField();
-				endtime.setBounds(275, 238, 225, 25);		
-				tool.getPanel().add(endtime);
-				
-				final JButton loginButton = new JButton("Login");
-				loginButton.setBackground(Color.GREEN);		
-				loginButton.setFont(new Font("Courier New", Font.PLAIN, 18));
-				loginButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						
-					}
-				});
-				loginButton.setBounds(275, 300, 125, 30);	
-				tool.getPanel().add(loginButton);
 			}
 		}
 	}
@@ -235,17 +271,20 @@ public class HeaderScreen {
 					tool.setClients(maintainDatabase.clientsData());
 					tool.setProjects(maintainDatabase.projectsData());
 					tool.setEmployees(maintainDatabase.employeesData());
-					tool.setUserType("Accountant");					
+					tool.setUserType("Accountant");
+					tool.setUserName(employee[0]);
 					tool.setPanel(panel);
 					new MenuScreen().initialize(tool);												
 				}else if(employee!=null && employee.length==4 && (employee[2].equalsIgnoreCase("Project Manager") && password.getText().trim().equalsIgnoreCase("manager"))){
 					tool.setProjects(maintainDatabase.projectsData());
 					tool.setEmployees(maintainDatabase.employeesData());
 					tool.setUserType("Project Manager");
+					tool.setUserName(employee[0]);
 					tool.setPanel(panel);
 					new MenuScreen().initialize(tool);												
 				}else if(employee!=null && employee.length==4 && (employee[2].equalsIgnoreCase("Developer") && password.getText().trim().equalsIgnoreCase("developer"))){
 					tool.setUserType("Developer");
+					tool.setUserName(employee[0]);
 					tool.setPanel(panel);
 					new MenuScreen().initialize(tool);												
 				}else{
@@ -258,3 +297,5 @@ public class HeaderScreen {
 		panel.repaint();
 	}
 }
+
+
