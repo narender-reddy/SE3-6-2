@@ -4,10 +4,12 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -16,6 +18,7 @@ import javax.swing.event.ListSelectionListener;
 
 import menu.MenuScreen;
 import service.HeaderScreen;
+import service.MaintainDatabase;
 import service.Tool;
 
 public class TimeApprove {
@@ -29,13 +32,21 @@ public class TimeApprove {
 		tool.getPanel().add(label);
 		
 		Object rowData[][]= { { "1", "2", "3","4","5","6"},{ "1", "2", "3","4","5","6"} };
-		Object columnNames[] = { "Client Name", "Project Name", "Developer Name", "Hours", "Bill Rate", "Amount"};
-		if(tool.getInvoices()!=null && tool.getInvoices().size()!=0){
-			rowData=new Object[tool.getInvoices().size()][3];
-			for(int i=0;i<tool.getInvoices().size();i++){
-				String split[]=((String[])tool.getInvoices().get(i));
-				if(split!=null && split.length>=3){
-					rowData[i]=split;
+		Object columnNames[] = { "Client Number", "Project Number", "Developer Name", "Hours", "Bill Rate", "Amount", "Status"};
+		final MaintainDatabase maintainDatabase=new MaintainDatabase();
+		final Vector project=maintainDatabase.employeeTimeAproveData();
+		if(project!=null && project.size()!=0){
+			rowData=new Object[project.size()][7];
+			for(int i=0;i<project.size();i++){
+				String split[]=((String[])project.get(i));
+				if(split!=null){
+					rowData[i][0]=split[2];
+					rowData[i][1]=split[1];
+					rowData[i][2]=split[3];
+					rowData[i][3]=split[5];
+					rowData[i][4]=split[6];
+					rowData[i][5]=split[7];
+					rowData[i][6]=split[8];					
 				}
 			}
 		}
@@ -77,12 +88,19 @@ public class TimeApprove {
 		cancelButton.setBounds(250,450,100,30);
 		tool.getPanel().add(cancelButton);		
 		
-		JButton addButton = new JButton("Approve");
+		final JButton addButton = new JButton("Approve");
 		addButton.setBackground(Color.GREEN);		
 		addButton.setFont(new Font("Courier New", Font.PLAIN, 18));
 		addButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				try{
+					String[]  projectinfo=(String[])project.get(tool.getSelectedTableRowValue());
+					maintainDatabase.updateWorkApproveData(projectinfo[0]);
+					JOptionPane.showMessageDialog(addButton, "Developer added work hours approved successfully to selected project");
+					TimeApprove.timeApprove(tool);
+				}catch(Exception ex){
+					ex.printStackTrace();
+				}
 			}
 		});
 		addButton.setBounds(50,400,175,30);

@@ -27,13 +27,13 @@ public class AssignEmployees {
 	public static void addAssign(final Tool tool){
 		HeaderScreen headerScreen=new HeaderScreen();
 		headerScreen.getHeaderMenuScreen(tool);
-		final JLabel label=new JLabel("Assign-Developer");
+		final JLabel label=new JLabel("Assign Developer");
 		label.setFont(new Font("Courier New", Font.ITALIC, 24));
 		label.setForeground(Color.WHITE);
 		label.setBounds(225,125,250,20);
 		tool.getPanel().add(label);
 		
-		JLabel numberLabel = new JLabel("Select-Project");
+		JLabel numberLabel = new JLabel("Select Project");
 		numberLabel.setBounds(175, 165, 100, 20);
 		numberLabel.setForeground(Color.WHITE);
 		tool.getPanel().add(numberLabel);
@@ -50,7 +50,7 @@ public class AssignEmployees {
 	    final JComboBox projectComboBox = new JComboBox(projectLabels);
 	    projectComboBox.setMaximumRowCount(4);
 	    projectComboBox.setSelectedIndex(0);
-	    projectComboBox.setBounds(275, 163, 75, 30);
+	    projectComboBox.setBounds(275, 163, 200, 30);
 	    tool.getPanel().add(projectComboBox);
 		
 		JLabel nameLabel = new JLabel("Select Developer");
@@ -62,15 +62,16 @@ public class AssignEmployees {
 		String developerLabels[] = new String[0];
 		if(developers!=null  && developers.size()!=0){
 			developerLabels=new String[developers.size()];
+			System.out.println(developers.size());
 	    	for(int arg=0;arg<developers.size();arg++){
 	    		String[] developer=(String[])developers.get(arg);
-	    		projectLabels[arg]=developer[0];
+	    		developerLabels[arg]=developer[0];
 	    	}
 	    }
 	    final JComboBox developerComboBox = new JComboBox(developerLabels);
 	    developerComboBox.setMaximumRowCount(4);
 	    developerComboBox.setSelectedIndex(0);
-	    developerComboBox.setBounds(275, 198, 150, 25);
+	    developerComboBox.setBounds(275, 198, 200, 25);
 	    tool.getPanel().add(developerComboBox);
 		
 		JButton exitButton = new JButton("Exit");
@@ -101,11 +102,12 @@ public class AssignEmployees {
 		assignbutton.setFont(new Font("Courier New", Font.PLAIN, 18));
 		assignbutton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String[]  projectinfo=(String[])tool.getProjects().get(projectComboBox.getSelectedIndex());
 				String projectnumber=((projectComboBox.getItemAt(projectComboBox.getSelectedIndex()))).toString();
 				String developername=((developerComboBox.getItemAt(developerComboBox.getSelectedIndex()))).toString();
 				try{
 					MaintainDatabase maintainDatabase=new MaintainDatabase();
-					maintainDatabase.assignDeveloperData(projectnumber, developername);
+					maintainDatabase.assignDeveloperData(projectinfo[0],projectinfo[1],developername);
 					JOptionPane.showMessageDialog(assignbutton, "Developer assigned successfully to selected project");
 					addAssign(tool);
 				}catch(Exception ex){

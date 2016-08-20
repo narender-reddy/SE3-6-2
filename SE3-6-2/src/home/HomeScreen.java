@@ -24,15 +24,7 @@ public class HomeScreen{
 	}
 	private void initialize(){
 		frame = new JFrame();
-<<<<<<< HEAD
 		frame.setTitle("INVOICE GENERATION");
-=======
-<<<<<<< HEAD
-		frame.setTitle("INVOICE GENNERATION");
-=======
-		frame.setTitle("INVOICE GENERATION");
->>>>>>> refs/remotes/origin/dev1
->>>>>>> refs/remotes/origin/dev
 		frame.setBounds(100, 25, 700, 700);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		panel=new JPanel();
@@ -44,7 +36,7 @@ public class HomeScreen{
 //		maintainDatabase.importEmployeeData();
 //		maintainDatabase.importProjectData();
 		
-		ImageIcon image = new ImageIcon(System.getProperty("user.dir")+"/src/eagles.jpg");
+		ImageIcon image = new ImageIcon(System.getProperty("user.dir")+"/src/eagles_logo.jpg");
 		JLabel labelimage = new JLabel("", image, JLabel.CENTER);
 		labelimage.setBounds(55, 35, 150, 100);
 		panel.add(labelimage);
