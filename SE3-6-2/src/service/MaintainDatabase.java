@@ -81,7 +81,7 @@ public class MaintainDatabase{
 		Connection connection=null;
 		try{
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			connection =DriverManager.getConnection("jdbc:mysql://localhost/naren","root","naren");  
+			connection =DriverManager.getConnection("jdbc:mysql://localhost/vamshi","root","vamshi");  
 		}catch (Exception e){
 			e.printStackTrace();
 		}
