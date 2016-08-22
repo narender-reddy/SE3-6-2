@@ -20,6 +20,7 @@ import javax.swing.JTextField;
 
 import menu.MenuScreen;
 import tasks.AssignEmployees;
+import tasks.InvoiceHelp;
 import tasks.ManageClients;
 import tasks.ManageEmployees;
 import tasks.ManageProjects;
@@ -96,6 +97,16 @@ public class HeaderScreen {
 			         }
 				});	    
 			    tool.getPanel().add(reportButton);
+			    
+			    JButton helpButton = new JButton("Help");
+				helpButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						InvoiceHelp.helpButton(tool);
+					}
+				});
+				helpButton.setBounds(600,90,75,30);	
+				tool.getPanel().add(helpButton);
+			    
 			}else if(tool!=null && tool.getUserType()!=null && (tool.getUserType().equalsIgnoreCase("Project Manager"))){				
 				
 				JButton forecastButton = new JButton("Project");
@@ -129,38 +140,40 @@ public class HeaderScreen {
 			    reportButton.setBounds(440, 90, 115, 30);
 			    reportButton.addActionListener(new ActionListener() {
 			         public void actionPerformed(ActionEvent e) {
-			        	 Reports.generateReports(tool);
-			     		
+			        	 Reports.generateReports(tool);			     		
 			         }
 				});	    
-			    tool.getPanel().add(reportButton);			    
+			    tool.getPanel().add(reportButton);
+			    
+			    JButton helpButton = new JButton("Help");
+				helpButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						InvoiceHelp.helpButton(tool);
+					}
+				});
+				helpButton.setBounds(600,90,75,30);	
+				tool.getPanel().add(helpButton);
+				
 			}else{
 				final JLabel label1=new JLabel("Employee Working Hours");
 				label1.setFont(new Font("Courier New", Font.ITALIC, 24));
 				label1.setForeground(Color.WHITE);
 				label1.setBounds(200,100,350,30);
 				tool.getPanel().add(label1);
+				
+				JButton helpButton = new JButton("Help");
+				helpButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						InvoiceHelp.helpButton(tool);
+					}
+				});
+				helpButton.setBounds(600,90,75,30);	
+				tool.getPanel().add(helpButton);
+				
 				MaintainDatabase maintainDatabase=new MaintainDatabase();
 				String projectLabels[] = new String[0];
 				final Vector projectdata=maintainDatabase.developerProjectsData(tool.getUserName());
 				if(projectdata!=null && projectdata.size()!=0){
-					
-										
-//					final DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
-//			        ActionListener timerListener = new ActionListener(){
-//			            public void actionPerformed(ActionEvent e){
-//			                Date date = new Date();
-//			                String time = timeFormat.format(date);
-//			                projectLabel.setText(time);
-//			            }
-//			        };
-//			        Timer timer = new Timer(1000, timerListener);
-//			        // to make sure it doesn't wait one second at the start
-//			        timer.setInitialDelay(0);
-//			        timer.start();
-//					
-					
-					
 					JLabel projectLabel = new JLabel("Select Project");
 					projectLabel.setBounds(175, 150, 100, 20);
 					projectLabel.setForeground(Color.WHITE);
@@ -175,36 +188,134 @@ public class HeaderScreen {
 				    }
 				    final JComboBox projectComboBox = new JComboBox(projectLabels);
 				    projectComboBox.setMaximumRowCount(4);
-				    //projectComboBox.setSelectedIndex(0);
 				    projectComboBox.setBounds(275, 148, 225, 25);
 				    tool.getPanel().add(projectComboBox);
 				    
-					JLabel dateLabel = new JLabel("Date");
-					dateLabel.setBounds(175, 180, 100, 20);
+					JLabel dateLabel = new JLabel("Mon");
+					dateLabel.setBounds(75, 180, 75, 20);
 					dateLabel.setForeground(Color.WHITE);
 					tool.getPanel().add(dateLabel);
 					
 					final JTextField date = new JTextField();
-					date.setBounds(275, 178, 225, 25);
+					date.setBounds(75, 205, 75, 25);
 					tool.getPanel().add(date);
 					
 					JLabel startLabel = new JLabel("Hours");
-					startLabel.setBounds(175, 210, 100, 20);
+					startLabel.setBounds(75, 240, 75, 20);
 					startLabel.setForeground(Color.WHITE);
 					tool.getPanel().add(startLabel);
 					
 					final JTextField starttime= new JTextField();
-					starttime.setBounds(275, 208, 225, 25);		
+					starttime.setBounds(75, 265, 75, 25);		
 					tool.getPanel().add(starttime);
 					
-					JLabel endLabel = new JLabel("End Time");
-					endLabel.setBounds(175, 240, 100, 20);
-					endLabel.setForeground(Color.WHITE);
-					//tool.getPanel().add(endLabel);
+					dateLabel = new JLabel("Tue");
+					dateLabel.setBounds(165, 180, 75, 20);
+					dateLabel.setForeground(Color.WHITE);
+					tool.getPanel().add(dateLabel);
 					
-					final JTextField endtime= new JTextField();
-					endtime.setBounds(275, 238, 225, 25);		
-					//tool.getPanel().add(endtime);
+					final JTextField seconddate = new JTextField();
+					seconddate.setBounds(165, 178, 75, 25);
+					tool.getPanel().add(seconddate);
+					
+					startLabel = new JLabel("Hours");
+					startLabel.setBounds(165, 210, 75, 20);
+					startLabel.setForeground(Color.WHITE);
+					tool.getPanel().add(startLabel);
+					
+					final JTextField secondtime= new JTextField();
+					secondtime.setBounds(165, 208, 75, 25);		
+					tool.getPanel().add(secondtime);
+					
+					dateLabel = new JLabel("Wed");
+					dateLabel.setBounds(255, 180, 75, 20);
+					dateLabel.setForeground(Color.WHITE);
+					tool.getPanel().add(dateLabel);
+					
+					final JTextField thirddate = new JTextField();
+					thirddate.setBounds(255, 178, 75, 25);
+					tool.getPanel().add(thirddate);
+					
+					startLabel = new JLabel("Hours");
+					startLabel.setBounds(255, 210, 75, 20);
+					startLabel.setForeground(Color.WHITE);
+					tool.getPanel().add(startLabel);
+					
+					final JTextField thirdtime= new JTextField();
+					thirdtime.setBounds(255, 208, 75, 25);		
+					tool.getPanel().add(thirdtime);
+					
+					dateLabel = new JLabel("Thu");
+					dateLabel.setBounds(345, 180, 75, 20);
+					dateLabel.setForeground(Color.WHITE);
+					tool.getPanel().add(dateLabel);
+					
+					final JTextField fourthdate = new JTextField();
+					fourthdate.setBounds(345, 178, 75, 25);
+					tool.getPanel().add(fourthdate);
+					
+					startLabel = new JLabel("Hours");
+					startLabel.setBounds(345, 210, 75, 20);
+					startLabel.setForeground(Color.WHITE);
+					tool.getPanel().add(startLabel);
+					
+					final JTextField fourthtime= new JTextField();
+					fourthtime.setBounds(345, 208, 75, 25);		
+					tool.getPanel().add(fourthtime);
+					
+					dateLabel = new JLabel("Fri");
+					dateLabel.setBounds(435, 180, 75, 20);
+					dateLabel.setForeground(Color.WHITE);
+					tool.getPanel().add(dateLabel);
+					
+					final JTextField fivthdate = new JTextField();
+					fivthdate.setBounds(435, 178, 75, 25);
+					tool.getPanel().add(fivthdate);
+					
+					startLabel = new JLabel("Hours");
+					startLabel.setBounds(435, 210, 75, 20);
+					startLabel.setForeground(Color.WHITE);
+					tool.getPanel().add(startLabel);
+					
+					final JTextField fivthtime= new JTextField();
+					fivthtime.setBounds(435, 208, 75, 25);		
+					tool.getPanel().add(fivthtime);
+					
+					dateLabel = new JLabel("Sat");
+					dateLabel.setBounds(525, 180, 75, 20);
+					dateLabel.setForeground(Color.WHITE);
+					tool.getPanel().add(dateLabel);
+					
+					final JTextField sixthdate = new JTextField();
+					sixthdate.setBounds(525, 178, 75, 25);
+					tool.getPanel().add(sixthdate);
+					
+					startLabel = new JLabel("Hours");
+					startLabel.setBounds(525, 210, 75, 20);
+					startLabel.setForeground(Color.WHITE);
+					tool.getPanel().add(startLabel);
+					
+					final JTextField sixthtime= new JTextField();
+					sixthtime.setBounds(525, 208, 75, 25);		
+					tool.getPanel().add(sixthtime);
+					
+					dateLabel = new JLabel("Sun");
+					dateLabel.setBounds(525, 180, 75, 20);
+					dateLabel.setForeground(Color.WHITE);
+					tool.getPanel().add(dateLabel);
+					
+					final JTextField seventhdate = new JTextField();
+					seventhdate.setBounds(615, 178, 75, 25);
+					tool.getPanel().add(seventhdate);
+					
+					startLabel = new JLabel("Hours");
+					startLabel.setBounds(615, 210, 75, 20);
+					startLabel.setForeground(Color.WHITE);
+					tool.getPanel().add(startLabel);
+					
+					final JTextField seventhtime= new JTextField();
+					seventhtime.setBounds(615, 208, 75, 25);		
+					tool.getPanel().add(seventhtime);
 					
 					final JButton loginButton = new JButton("Save");
 					loginButton.setBackground(Color.GREEN);		
@@ -293,7 +404,19 @@ public class HeaderScreen {
 			}
 		});
 		loginButton.setBounds(275, 275, 125, 30);	
-		panel.add(loginButton);		
+		panel.add(loginButton);
+		
+		JButton helpButton = new JButton("Help");
+		helpButton.setBackground(Color.GREEN);		
+		helpButton.setFont(new Font("Courier New", Font.PLAIN, 18));
+		helpButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				InvoiceHelp.helpButton(panel,tool);
+			}
+		});
+		helpButton.setBounds(550,20,85,25);	
+		panel.add(helpButton);
+		
 		panel.repaint();
 	}
 }

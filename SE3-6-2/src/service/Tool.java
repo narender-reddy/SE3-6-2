@@ -17,7 +17,14 @@ public class Tool {
 	private int selectedTableRowValue;
 	private Vector invoices;
 	private MaintainDatabase maintainDatabase;
+	private String helpType;
 	
+	public String getHelpType() {
+		return helpType;
+	}
+	public void setHelpType(String helpType) {
+		this.helpType = helpType;
+	}
 	public MaintainDatabase getMaintainDatabase() {
 		return maintainDatabase;
 	}

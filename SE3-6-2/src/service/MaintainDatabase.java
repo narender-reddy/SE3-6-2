@@ -81,7 +81,7 @@ public class MaintainDatabase{
 		Connection connection=null;
 		try{
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			connection =DriverManager.getConnection("jdbc:mysql://localhost/vamshi","root","vamshi");  
+			connection =DriverManager.getConnection("jdbc:mysql://localhost/vamshi","root","vamshis");  
 		}catch (Exception e){
 			e.printStackTrace();
 		}
@@ -254,7 +254,7 @@ public class MaintainDatabase{
 			connection=dbconnection();
 			if(connection!=null){
 	    		statement=connection.prepareStatement("UPDATE client SET inactiveflag = ? WHERE clientnumber = ?");
-	    		statement.setString(1,"N");
+	    		statement.setString(1,"Y");
 	    		statement.setInt(2,Integer.parseInt(number));	    		    		
 	    		statement.executeUpdate();
 			}
@@ -270,7 +270,7 @@ public class MaintainDatabase{
 			connection=dbconnection();
 			if(connection!=null){
 	    		statement=connection.prepareStatement("UPDATE project SET inactiveflag = ? WHERE projectnumber = ?");
-	    		statement.setString(1,"N");
+	    		statement.setString(1,"Y");
 	    		statement.setInt(2,Integer.parseInt(number));	    		    		
 	    		statement.executeUpdate();
 			}
@@ -286,7 +286,7 @@ public class MaintainDatabase{
 			connection=dbconnection();
 			if(connection!=null){
 	    		statement=connection.prepareStatement("UPDATE employee SET inactiveflag = ? WHERE employeename = ?");
-	    		statement.setString(1,"N");
+	    		statement.setString(1,"Y");
 	    		statement.setString(2,name);	    		    		
 	    		statement.executeUpdate();
 			}
